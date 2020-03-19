@@ -8,9 +8,9 @@ router.post('/register', async(req, res, next)=>{
    try{
       
       const {username} = req.body
-      console.log(username)
+      
       const user = await Users.findBy({username}).first()
-      console.log(user)
+      
       if(user){
          return res.status(409).json({
             message: 'Username is already taken'
@@ -40,13 +40,16 @@ router.post('/login', async(req, res, next)=>{
          return res.status(401).json(authError)
       }
       const payload = {
-         userId: user.userId,
+         userId: user.Id,
          department: "departments"
       }
-      const token = jwt.sign(payload)
+      const token = jwt.sign(payload,'process.env.JWT_SECRET')
       res.cookie = ('token', token)
       res.json({
-         message: `Welcome ${user.username}`
+         message: `Welcome ${user.username}`,
+         token: token,
+         payload: payload
+         
       })
      }
    catch(error){

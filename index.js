@@ -8,11 +8,11 @@ const cookieParser = require('cookie-parser')
 
 const server = express()
 
-const port = process.env.Port || 5000 
+const port = 5000 
 
 server.use(cors())
 server.use(helmet())
-server.use(express())
+server.use(express.json())
 server.use(cookieParser())
 
 
